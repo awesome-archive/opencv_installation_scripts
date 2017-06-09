@@ -71,6 +71,7 @@ cd /opt/src/opencv32_py36/release
 #    -D ENABLE_AVX=ON \  # comment this if you are not using 64 bit Intel
 
 cmake \
+    -D BUILD_opencv_legacy=OFF
     -D CMAKE_INSTALL_PREFIX=/opt/opencv32_py36 \
     -D OPENCV_EXTRA_MODULES_PATH=/opt/src/opencv32_py36_contrib/modules \
     -D BUILD_opencv_python2=OFF \
