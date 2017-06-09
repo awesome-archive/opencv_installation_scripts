@@ -20,10 +20,10 @@ if ! type "pyenv" > /dev/null; then
   exit 1
 fi
 
-env PYTHON_CONFIGURE_OPTS="--enable-shared" CFLAGS="-O2" pyenv install 3.6.0
-pyenv global 3.6.0
+env PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations" pyenv install 3.6.1
+pyenv global 3.6.1
 
-if [[ `python --version` != "Python 3.6.0" ]]; then
+if [[ `python --version` != "Python 3.6.1" ]]; then
   echo "error: python installation failure"
   echo "info: check if pyenv is installed correctly"
   exit 1
@@ -78,12 +78,12 @@ cmake \
     -D PYTHON3_PACKAGES_PATH=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") ..
     make -j8
     make install
-    # Installing: /Users/adamgradzki/.pyenv/versions/3.6.0/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so
+    # Installs to: ~/.pyenv/versions/3.6.1/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so
     
-    pyenv virtualenv 3.6.0 main
-    pyenv global main
+    pyenv virtualenv 3.6.1 demo
+    pyenv global demo
     pip install -U pip setuptools wheel numpy
-    ln -s "$HOME/.pyenv/versions/3.6.0/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so" \
-        "$HOME/.pyenv/versions/main/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so"
+    ln -s "$HOME/.pyenv/versions/3.6.1/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so" \
+        "$HOME/.pyenv/versions/demo/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so"
 }
 run

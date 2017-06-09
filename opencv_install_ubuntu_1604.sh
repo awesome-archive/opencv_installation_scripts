@@ -14,8 +14,8 @@ sudo apt install -y libjpeg8-dev libtiff5-dev libjasper-dev libpng12-dev libhdf5
 echo 'export PATH="~/.pyenv/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
-source ~/.bashrc
 curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+source ~/.bashrc
 
 # step 2. set up pyenv
 if ! type "pyenv" > /dev/null; then
@@ -25,10 +25,10 @@ if ! type "pyenv" > /dev/null; then
 fi
 
 pyenv update
-PYTHON_CONFIGURE_OPTS="--enable-shared" CFLAGS="-O2" pyenv install 3.6.0
-pyenv global 3.6.0
+PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations" pyenv install 3.6.1
+pyenv global 3.6.1
 
-if [[ `python --version` != "Python 3.6.0" ]]; then
+if [[ `python --version` != "Python 3.6.1" ]]; then
   echo "error: python installation failure"
   echo "info: check if pyenv is installed correctly"
   exit 1
@@ -101,10 +101,10 @@ cmake \
     make -j8
     cd /opt/src/opencv32_py36/release
     make install
-    pyenv virtualenv 3.6.0 main
-    pyenv global main
+    pyenv virtualenv 3.6.1 demo
+    pyenv global demo
     pip install -U pip setuptools wheel numpy  # important to install in every new virtual environment where we symlink opencv
-    ln -s "$HOME/.pyenv/versions/3.6.0/lib/python3.6/site-packages/cv2.cpython-36m-x86_64-linux-gnu.so" \
-        "$HOME/.pyenv/versions/main/lib/python3.6/site-packages/cv2.cpython-36m-x86_64-linux-gnu.so"
+    ln -s "$HOME/.pyenv/versions/3.6.1/lib/python3.6/site-packages/cv2.cpython-36m-x86_64-linux-gnu.so" \
+        "$HOME/.pyenv/versions/demo/lib/python3.6/site-packages/cv2.cpython-36m-x86_64-linux-gnu.so"
 }
 run
