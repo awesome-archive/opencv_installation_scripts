@@ -7,7 +7,8 @@ sudo apt install -y libjpeg8-dev libtiff5-dev libjasper-dev libpng12-dev libhdf5
     libx264-dev libgtk-3-dev libatlas-base-dev gfortran \
     build-essential cmake pkg-config libeigen3-dev libtbb-dev libtbb2 \
     make build-essential libssl-dev zlib1g-dev libbz2-dev \
-    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils unzip
+    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils \
+    git unzip
 
 
 # step 2. install pyenv
@@ -71,7 +72,7 @@ cd /opt/src/opencv32_py36/release
 #    -D ENABLE_AVX=ON \  # comment this if you are not using 64 bit Intel
 
 cmake \
-    -D BUILD_opencv_legacy=OFF
+    -D BUILD_opencv_legacy=OFF \
     -D CMAKE_INSTALL_PREFIX=/opt/opencv32_py36 \
     -D OPENCV_EXTRA_MODULES_PATH=/opt/src/opencv32_py36_contrib/modules \
     -D BUILD_opencv_python2=OFF \

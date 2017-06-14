@@ -53,7 +53,7 @@ cd /opt/src/opencv32_py36
 mkdir /opt/src/opencv32_py36/release
 cd /opt/src/opencv32_py36/release
 cmake \
-    -D BUILD_opencv_legacy=OFF
+    -D BUILD_opencv_legacy=OFF \
     -D CMAKE_INSTALL_PREFIX=/opt/opencv32_py36 \
     -D OPENCV_EXTRA_MODULES_PATH=/opt/src/opencv32_py36_contrib/modules \
     -D BUILD_opencv_python2=OFF \
