@@ -70,31 +70,31 @@ cd release
 
 CFLAGS='-march=native -O2 -pipe' \
 CXXFLAGS='-march=native -O2 -pipe' \
-    cmake \
-    -D CMAKE_INSTALL_PREFIX=/opt/opencv_${OPENCV_VERSION}_python_${PYTHON_VERSION} \
-    -D OPENCV_EXTRA_MODULES_PATH=/opt/src/opencv_contrib_${OPENCV_VERSION}_python_${PYTHON_VERSION}/modules \
-    -D BUILD_OPENCV_PYTHON2=OFF \
-    -D BUILD_OPENCV_PYTHON3=ON \
-    -D BUILD_TIFF=ON \
-    -D BUILD_OPENCV_JAVA=OFF \
-    -D BUILD_PERF_TESTS=OFF \
-    -D CMAKE_BUILD_TYPE=RELEASE \
-    -D PYTHON3_LIBRARY=$(python -c "import re, os.path; print(os.path.normpath(os.path.join(os.path.dirname(re.__file__), '..', 'libpython3.6m.dylib')))") \
-    -D PYTHON3_EXECUTABLE=$(which python) \
-    -D PYTHON3_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
-    -D PYTHON3_PACKAGES_PATH=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") ..
-    make -j8
-    make install
-    ### If using 3.6.x:
-    ### Installs to: ~/.pyenv/versions/${PYTHON_VERSION}/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so
-    
-    ### Example installation for a virtual environment named "demo"
-    ### If using 3.6.x:
-    # pyenv virtualenv 3.6.x demo
-    # pyenv global demo
-    # pip install -U pip setuptools wheel numpy
-    # ln -s "$HOME/.pyenv/versions/3.6.x/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so" \
-    #     "$HOME/.pyenv/versions/demo/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so"
+cmake \
+-D CMAKE_INSTALL_PREFIX=/opt/opencv_${OPENCV_VERSION}_python_${PYTHON_VERSION} \
+-D OPENCV_EXTRA_MODULES_PATH=/opt/src/opencv_contrib_${OPENCV_VERSION}_python_${PYTHON_VERSION}/modules \
+-D BUILD_OPENCV_PYTHON2=OFF \
+-D BUILD_OPENCV_PYTHON3=ON \
+-D BUILD_TIFF=ON \
+-D BUILD_OPENCV_JAVA=OFF \
+-D BUILD_PERF_TESTS=OFF \
+-D CMAKE_BUILD_TYPE=RELEASE \
+-D PYTHON3_LIBRARY=$(python -c "import re, os.path; print(os.path.normpath(os.path.join(os.path.dirname(re.__file__), '..', 'libpython3.6m.dylib')))") \
+-D PYTHON3_EXECUTABLE=$(which python) \
+-D PYTHON3_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
+-D PYTHON3_PACKAGES_PATH=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") ..
+make -j8
+make install
+### If using 3.6.x:
+### Installs to: ~/.pyenv/versions/${PYTHON_VERSION}/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so
+
+### Example installation for a virtual environment named "demo"
+### If using 3.6.x:
+# pyenv virtualenv 3.6.x demo
+# pyenv global demo
+# pip install -U pip setuptools wheel numpy
+# ln -s "$HOME/.pyenv/versions/3.6.x/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so" \
+#     "$HOME/.pyenv/versions/demo/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so"
 }
 
 run
