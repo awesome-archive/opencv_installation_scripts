@@ -79,7 +79,7 @@ cmake \
 -D BUILD_OPENCV_JAVA=OFF \
 -D BUILD_PERF_TESTS=OFF \
 -D CMAKE_BUILD_TYPE=RELEASE \
--D PYTHON3_LIBRARY=$(python -c "import os.path; print(os.path.normpath(os.path.join(os.path.dirname(os.path.__file__), '..', 'libpython3.6m.dylib')))") \
+-D PYTHON3_LIBRARY=$(python -c "from distutils.sysconfig import get_config_var; print(os.path.join(get_config_var('LIBDIR'), get_config_var('LDLIBRARY')))") \
 -D PYTHON3_EXECUTABLE=$(which python) \
 -D PYTHON3_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
 -D PYTHON3_PACKAGES_PATH=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") ..
