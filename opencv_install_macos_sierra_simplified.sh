@@ -18,6 +18,7 @@ brew update || true
 brew upgrade || true
 brew tap homebrew/science || true
 brew install protobuf eigen openjpeg tbb hdf5 tesseract libjpeg-turbo libtiff libpng pyenv-virtualenv || true
+brew cleanup || true
 
 if "pyenv" > /dev/null; then
   echo "error: pyenv not installed properly"
@@ -51,11 +52,11 @@ sudo mkdir -p /opt/src
 sudo chown $(whoami):staff /opt
 sudo chown $(whoami):staff /opt/src
 cd /opt/src
-if [[ ! -r "opencv33.zip" ]]; then
+if [[ ! -r "opencv_${OPENCV_VERSION}.zip" ]]; then
     echo "Cannot find opencv_${OPENCV_VERSION}.zip. Downloading..."
     curl -L https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -o opencv_${OPENCV_VERSION}.zip
 fi
-if [[ ! -r "opencv33contrib.zip" ]]; then
+if [[ ! -r "opencv_contrib_${OPENCV_VERSION}.zip" ]]; then
     echo "Cannot find opencv_contrib_${OPENCV_VERSION}.zip. Downloading..."
     curl -L https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -o opencv_contrib_${OPENCV_VERSION}.zip
 fi
@@ -84,9 +85,11 @@ CXXFLAGS='-march=native -O2 -pipe' \
     -D PYTHON3_PACKAGES_PATH=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") ..
     make -j8
     make install
-    # Installs to (if using 3.6.x): ~/.pyenv/versions/${PYTHON_VERSION}/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so
+    ### If using 3.6.x:
+    ### Installs to: ~/.pyenv/versions/${PYTHON_VERSION}/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so
     
     ### Example installation for a virtual environment named "demo"
+    ### If using 3.6.x:
     # pyenv virtualenv 3.6.x demo
     # pyenv global demo
     # pip install -U pip setuptools wheel numpy
