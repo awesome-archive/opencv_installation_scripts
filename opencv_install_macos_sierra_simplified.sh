@@ -95,6 +95,11 @@ make install
 # pip install -U pip setuptools wheel numpy
 # ln -s "$HOME/.pyenv/versions/3.6.x/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so" \
 #     "$HOME/.pyenv/versions/demo/lib/python3.6/site-packages/cv2.cpython-36m-darwin.so"
+
+### OPTIONAL: some housekeeping to free up space and old installations:
+# rm -rf /opt/opencv3*
+# rm -rf /opt/src
+
 }
 
 run
