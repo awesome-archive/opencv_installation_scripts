@@ -95,7 +95,6 @@ cmake \
 -D PYTHON3_EXECUTABLE=$(which python) \
 -D PYTHON3_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
 -D PYTHON3_PACKAGES_PATH=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") ..
-exit 0
 make -j${NPROC}
 make install
 
