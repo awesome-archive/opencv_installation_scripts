@@ -21,15 +21,15 @@ The script defaults installation to `~/.pyenv/versions/${PYTHON_VERSION}/lib/pyt
 
 If you want to use a different virtual environment, create it:
     
-    pyenv virtualenv 3.6.x demo
+    pyenv virtualenv 3.6.3 MY_VIRTUAL_ENVIRONMENT_NAME_GOES_HERE
 
 Change to it:
 
-    pyenv global demo
+    pyenv global MY_VIRTUAL_ENVIRONMENT_NAME_GOES_HERE
 
 Install the same version of numpy you used to build OpenCV. I am assuming you built OpenCV recently, so the newest numpy is still ABI compatible. This is a big assumption! Be aware.
 
-    pip install -U pip setuptools wheel numpy
+    pip3 install -U pip setuptools wheel numpy
 
 Make that symbolic link!
 
