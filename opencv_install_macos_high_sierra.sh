@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
+
+# uncomment if debugging:
+#set -o xtrace
+
 set -o errexit
-set -o xtrace
 set -o nounset
 set -o pipefail
 
@@ -9,38 +12,54 @@ function run () {
 OPENCV_VERSION='3.3.1'
 PYTHON_VERSION='3.6.3'
 
-# step 1. install brew (http://brew.sh)
-if ! type "brew" > /dev/null; then
+if [ "$(which python)" != "/usr/bin/python" ]; then
+    echo Script must be run using Mac OS X default Python interpreter
+    exit 1
+fi
+
+echo "OpenCV, Python 3.6.3, pyenv Installation Script"
+echo "Author: Adam Gradzki (adam@mm.st)"
+
+echo "Performing brew package installation"
+# check if brew package manager is installed
+if [ "$(which brew)" != "/usr/local/bin/brew" ]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
-brew cleanup || true
-brew update || true
-brew upgrade || true
-brew tap homebrew/science || true
-brew install protobuf eigen openjpeg tbb hdf5 tesseract libjpeg-turbo libtiff libpng pyenv-virtualenv || true
-brew cleanup || true
 
-if "pyenv" > /dev/null; then
-  echo "error: pyenv not installed properly"
-  echo "info: install pyenv!"
-  exit 1
+echo "Brew is installed. Cleaning up, updating, and upgrading."
+brew cleanup
+brew update
+brew upgrade
+
+echo "Installing Python3 dependencies with Brew"
+eval $(brew deps python3 | python -c "import sys; print 'brew install ' + ' '.join(x.strip() for x in sys.stdin.readlines())")
+echo "Installing OpenCV dependencies with Brew"
+eval $(brew deps opencv | python -c "import sys; print 'brew install ' + ' '.join(x.strip() for x in sys.stdin.readlines())")
+
+echo "Installing pyenv and pyenv virtualenv plugin"
+brew install pyenv pyenv-virtualenv
+
+echo "Checking for Python ${PYTHON_VERSION}"
+pyenv versions | python -c "import sys; [sys.exit(0) for l in sys.stdin.readlines() if l.startswith('* ${PYTHON_VERSION}')]; sys.exit(1)" && rc=$? || rc=$?
+
+if [ ${rc} -ne 0 ]; then
+    echo "Building Python ${PYTHON_VERSION} from source"
+    CFLAGS="-I$(brew --prefix readline)/include -I$(brew --prefix openssl)/include -march=native" \
+    LDFLAGS="-L$(brew --prefix readline)/lib    -L$(brew --prefix openssl)/lib" \
+    CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-computed-gotos" \
+    MAKE_OPTS="-j8" \
+    pyenv install ${PYTHON_VERSION} --verbose
+else
+    echo "Found an existing Python ${PYTHON_VERSION}"
 fi
 
-# install Python if it is not installed
+echo "Attempting to set Python ${PYTHON_VERSION} as the global interpreter"
+pyenv global ${PYTHON_VERSION}
 
-if [[ `python --version` != "Python ${PYTHON_VERSION}" ]]; then
-  echo "error: python installation failure"
-  echo "info: check if pyenv is installed correctly"
-  exit 1
-fi
+echo "Creating OpenCV virtualenv"
+pyenv virtualenv ${PYTHON_VERSION} opencv --verbose
 
-if [[ `which python` != "${HOME}/.pyenv/shims/python" ]]; then
-  echo "error: failed to detect pyenv python"
-  echo "info: check if pyenv is installed correctly"
-  exit 1
-fi
-
-rm -rf "/opt/src/opencv*"
+exit
 
 # step 3. install python dependencies
 pip install -U pip setuptools
